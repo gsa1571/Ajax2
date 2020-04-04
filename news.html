@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="content-type" content="text/html; charset=windows-1251" /> 
+
+<title>
+</title>
+  <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+  <script type="text/javascript">
+    $(function(){
+		
+		var ids = [];
+		
+		setInterval(function(){
+			getNews();
+		}, 1000);
+		
+		function getNews(){
+			
+			$.ajax({
+				url: "get.php",
+				type: "POST",
+			
+				success: function(data){
+					data = jQuery.parseJSON(data);
+				
+					$.each(data, function(i, item){
+					
+						if (jQuery.inArray(item.id, ids) == -1){
+							ids.push(item.id);		
+							$("#container").prepend("<h1>"+item.title+"</h1><p>"+item.text+"</p>");
+						}	
+					});
+				}	
+			});
+		}	
+		
+	});
+  </script>
+
+
+</head>
+<body>
+	<div id="container"></div>
+
+</body>
+</html>
